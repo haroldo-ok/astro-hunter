@@ -5,6 +5,7 @@
 #include "lib/PSGlib.h"
 #include "actor.h"
 #include "shots.h"
+#include "shot.h"
 #include "map.h"
 #include "data.h"
 
@@ -51,7 +52,7 @@ struct enemy_spawner {
 } enemy_spawner;
 
 void load_standard_palettes() {
-	SMS_loadBGPalette(sprites_palette_bin);
+	SMS_loadBGPalette(tileset_palette_bin);
 	SMS_loadSpritePalette(sprites_palette_bin);
 	SMS_setSpritePaletteColor(0, 0);
 }
@@ -183,24 +184,6 @@ void draw_enemies() {
 	}
 }
 
-void draw_background() {
-	unsigned int *ch = background_tilemap_bin;
-	
-	SMS_setNextTileatXY(0, 0);
-	for (char y = 0; y != 30; y++) {
-		// Repeat pattern every two lines
-		if (!(y & 0x01)) {
-			ch = background_tilemap_bin;
-		}
-		
-		for (char x = 0; x != 32; x++) {
-			unsigned int tile_number = *ch + 256;
-			SMS_setTile(tile_number);
-			ch++;
-		}
-	}
-}
-
 void main() {	
 	SMS_useFirstHalfTilesforSprites(1);
 	SMS_setSpriteMode(SPRITEMODE_TALL);
@@ -232,7 +215,6 @@ void main() {
 	while (1) {	
 		handle_player_input();
 		handle_enemies();
-		handle_icons();
 		handle_player_shots();
 	
 		SMS_initSprites();
