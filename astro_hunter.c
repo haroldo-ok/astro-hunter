@@ -196,7 +196,7 @@ void handle_enemies() {
 		
 		enm = enemies + enemy_spawner.next;
 		
-		init_actor(enm, enemy_spawner.x, 0, 2, 1, 66, 1);
+		init_actor(enm, enemy_spawner.x, 0, 2, 1, 66, 5);
 		enm->path_flags = enemy_spawner.flags;
 		enm->path = enemy_spawner.path;
 		enm->state = enemy_spawner.type;
