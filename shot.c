@@ -144,42 +144,42 @@ const path_step ball_lightining_path[] = {
 };
 
 const path lightining_paths[] = {
-	{8, -8, 0, lightining_path}
+	{4, -8, 0, lightining_path}
 };
 
 const path fire_paths[] = {
-	{8, -8, 0, fire_path}
+	{4, -8, 0, fire_path}
 };
 
 const path hellfire_paths[] = {
-	{8, -8, 0, hellfire_path}
+	{4, -8, 0, hellfire_path}
 };
 
 const path wind_paths[] = {
-	{6, -6, 0, wind_path0},
-	{8, -8, 0, wind_path1},
-	{10, -6, 0, wind_path2}
+	{2, -6, 0, wind_path0},
+	{4, -8, 0, wind_path1},
+	{6, -6, 0, wind_path2}
 };
 
 const path tempest_paths[] = {
-	{6, -6, 0, wind_path0},
-	{7, -8, 0, wind_path3},
-	{9, -8, 0, wind_path4},
-	{10, -6, 0, wind_path2}
+	{2, -6, 0, wind_path0},
+	{3, -8, 0, wind_path3},
+	{5, -8, 0, wind_path4},
+	{6, -6, 0, wind_path2}
 };
 
 const path firebolt_paths[] = {
-	{8, -8, 0, firebolt_path}
+	{4, -8, 0, firebolt_path}
 };
 
 const path thunderstorm_paths[] = {
-	{6, -6, 0, wind_path3},
-	{8, -8, 0, wind_path1},
-	{10, -6, 0, wind_path4}
+	{2, -6, 0, wind_path3},
+	{4, -8, 0, wind_path1},
+	{6, -6, 0, wind_path4}
 };
 
 const path ball_lightining_paths[] = {
-	{8, -8, 0, ball_lightining_path}
+	{4, -8, 0, ball_lightining_path}
 };
 
 
