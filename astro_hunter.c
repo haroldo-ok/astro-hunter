@@ -17,6 +17,8 @@
 
 #define ENEMY_MAX (3)
 #define FOR_EACH_ENEMY(enm) enm = enemies; for (int i = ENEMY_MAX; i; i--, enm++)
+#define ENEMY_TYPE_COUNT (3)
+#define ENEMY_PATH_COUNT (4)
 	
 #define POWERUP_BASE_TILE (100)
 #define POWERUP_LIGHTINING_TILE (POWERUP_BASE_TILE)
@@ -31,6 +33,10 @@ actor player;
 actor enemies[ENEMY_MAX];
 actor icons[2];
 actor powerup;
+
+typedef struct enemy_type {
+	char base_tile, frame_count;
+} enemy_type;
 
 struct ply_ctl {
 	char shot_delay;
@@ -49,9 +55,23 @@ struct enemy_spawner {
 	char flags;
 	char delay;
 	char next;
+	enemy_type *enm_type;
 	path_step *path;
 	char all_dead;
 } enemy_spawner;
+
+const enemy_type enemy_types[ENEMY_TYPE_COUNT] = {
+	{66, 5},
+	{130, 6},
+	{154, 6}
+};
+
+path_step *enemy_paths[ENEMY_PATH_COUNT] = {
+	(path_step *) path1_path,
+	(path_step *) path2_path,
+	(path_step *) path3_path,
+	(path_step *) path4_path
+};
 
 void load_standard_palettes() {
 	SMS_loadBGPalette(tileset_palette_bin);
@@ -187,7 +207,8 @@ void handle_enemies() {
 			enemy_spawner.type = rand() & 1;
 			enemy_spawner.x = 8 + rand() % 124;
 			enemy_spawner.flags = 0;
-			enemy_spawner.path = (path_step *) path1_path;
+			enemy_spawner.enm_type = enemy_types + rand() % ENEMY_TYPE_COUNT;
+			enemy_spawner.path = enemy_paths[rand() % ENEMY_PATH_COUNT];
 			if (rand() & 1) {
 				enemy_spawner.x += 124;
 				enemy_spawner.flags |= PATH_FLIP_X;
@@ -196,7 +217,10 @@ void handle_enemies() {
 		
 		enm = enemies + enemy_spawner.next;
 		
-		init_actor(enm, enemy_spawner.x, 0, 2, 1, 66, 5);
+		init_actor(enm, enemy_spawner.x, 0, 2, 1, 
+			enemy_spawner.enm_type->base_tile, 
+			enemy_spawner.enm_type->frame_count);
+			
 		enm->path_flags = enemy_spawner.flags;
 		enm->path = enemy_spawner.path;
 		enm->state = enemy_spawner.type;
@@ -371,7 +395,7 @@ void main() {
 }
 
 SMS_EMBED_SEGA_ROM_HEADER(9999,0); // code 9999 hopefully free, here this means 'homebrew'
-SMS_EMBED_SDSC_HEADER(0,1, 2021,11,27, "Haroldo-OK\\2021", "Astro Hunter",
+SMS_EMBED_SDSC_HEADER(0,2, 2021,11,28, "Haroldo-OK\\2021", "Astro Hunter",
   "A space shoot-em-up.\n"
   "Originally made for the Lost Cartridge Jam 2021 - https://itch.io/jam/lostcartridgejam3\n"
   "Built using devkitSMS & SMSlib - https://github.com/sverx/devkitSMS");
