@@ -371,7 +371,7 @@ void main() {
 }
 
 SMS_EMBED_SEGA_ROM_HEADER(9999,0); // code 9999 hopefully free, here this means 'homebrew'
-SMS_EMBED_SDSC_HEADER(0,1, 2021,11,27, "Haroldo-OK\\2021", "Astro Hunter",
+SMS_EMBED_SDSC_HEADER(0,2, 2021,11,28, "Haroldo-OK\\2021", "Astro Hunter",
   "A space shoot-em-up.\n"
   "Originally made for the Lost Cartridge Jam 2021 - https://itch.io/jam/lostcartridgejam3\n"
   "Built using devkitSMS & SMSlib - https://github.com/sverx/devkitSMS");
