@@ -17,6 +17,7 @@
 
 #define ENEMY_MAX (3)
 #define FOR_EACH_ENEMY(enm) enm = enemies; for (int i = ENEMY_MAX; i; i--, enm++)
+#define ENEMY_TYPE_COUNT (3)
 	
 #define POWERUP_BASE_TILE (100)
 #define POWERUP_LIGHTINING_TILE (POWERUP_BASE_TILE)
@@ -31,6 +32,10 @@ actor player;
 actor enemies[ENEMY_MAX];
 actor icons[2];
 actor powerup;
+
+typedef struct enemy_type {
+	char base_tile, frame_count;
+} enemy_type;
 
 struct ply_ctl {
 	char shot_delay;
@@ -49,9 +54,16 @@ struct enemy_spawner {
 	char flags;
 	char delay;
 	char next;
+	enemy_type *enm_type;
 	path_step *path;
 	char all_dead;
 } enemy_spawner;
+
+const enemy_type enemy_types[ENEMY_TYPE_COUNT] = {
+	{66, 5},
+	{130, 6},
+	{154, 6}
+};
 
 void load_standard_palettes() {
 	SMS_loadBGPalette(tileset_palette_bin);
@@ -187,6 +199,7 @@ void handle_enemies() {
 			enemy_spawner.type = rand() & 1;
 			enemy_spawner.x = 8 + rand() % 124;
 			enemy_spawner.flags = 0;
+			enemy_spawner.enm_type = enemy_types + rand() % ENEMY_TYPE_COUNT;
 			enemy_spawner.path = (path_step *) path1_path;
 			if (rand() & 1) {
 				enemy_spawner.x += 124;
@@ -196,7 +209,10 @@ void handle_enemies() {
 		
 		enm = enemies + enemy_spawner.next;
 		
-		init_actor(enm, enemy_spawner.x, 0, 2, 1, 66, 5);
+		init_actor(enm, enemy_spawner.x, 0, 2, 1, 
+			enemy_spawner.enm_type->base_tile, 
+			enemy_spawner.enm_type->frame_count);
+			
 		enm->path_flags = enemy_spawner.flags;
 		enm->path = enemy_spawner.path;
 		enm->state = enemy_spawner.type;
