@@ -18,6 +18,7 @@
 #define ENEMY_MAX (3)
 #define FOR_EACH_ENEMY(enm) enm = enemies; for (int i = ENEMY_MAX; i; i--, enm++)
 #define ENEMY_TYPE_COUNT (3)
+#define ENEMY_PATH_COUNT (4)
 	
 #define POWERUP_BASE_TILE (100)
 #define POWERUP_LIGHTINING_TILE (POWERUP_BASE_TILE)
@@ -63,6 +64,13 @@ const enemy_type enemy_types[ENEMY_TYPE_COUNT] = {
 	{66, 5},
 	{130, 6},
 	{154, 6}
+};
+
+path_step *enemy_paths[ENEMY_PATH_COUNT] = {
+	(path_step *) path1_path,
+	(path_step *) path2_path,
+	(path_step *) path3_path,
+	(path_step *) path4_path
 };
 
 void load_standard_palettes() {
@@ -200,7 +208,7 @@ void handle_enemies() {
 			enemy_spawner.x = 8 + rand() % 124;
 			enemy_spawner.flags = 0;
 			enemy_spawner.enm_type = enemy_types + rand() % ENEMY_TYPE_COUNT;
-			enemy_spawner.path = (path_step *) path1_path;
+			enemy_spawner.path = enemy_paths[rand() % ENEMY_PATH_COUNT];
 			if (rand() & 1) {
 				enemy_spawner.x += 124;
 				enemy_spawner.flags |= PATH_FLIP_X;
